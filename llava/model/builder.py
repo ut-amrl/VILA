@@ -148,6 +148,7 @@ def load_pretrained_model(
             else:
                 # kentang-mit@: llama-2 model
                 # config._attn_implementation = "flash_attention_2"
+                kwargs["device_map"] = "auto"
                 model = LlavaLlamaModel(config=config, low_cpu_mem_usage=True, **kwargs)
             tokenizer = model.tokenizer
     else:
