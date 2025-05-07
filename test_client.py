@@ -54,12 +54,18 @@ def call_vila_service(images, prompt):
 if __name__ == "__main__":
     rospy.init_node("vila_client")
     
-    image_files = ["demo_images/av.png"]
+    image_files = ["/robodata/taijing/ros_perception/3dparty/GroundingDINO/debug/pred.jpg"]
     images = load_images(image_files)
-    prompt = "<video>\n You are a wandering around a household area. Please describe in detail what you see in the few seconds of the video. \
-        Focus on objects, events/activities, people and their actions, and other notable details. \
-        Provide enough detail about objects (e.g., colors, patterns, logos, or states) to ensure they can be identified through text alone. For example,  Instead of just 'a box,' describe its color, any images or logos on it, and any distinguishing marks. \
-        Think step by step about these details and be very specific. \
-        Describe the video directly without any introductory phrases or extra commentary."
+    prompt = "<video>\n What objects do you see?"
     
-    call_vila_service(images, prompt)
+    import time; time.time()
+    times = []
+    times.append(time.time())
+    for _ in range(10):
+        call_vila_service(images, prompt)
+        times.append(time.time())
+    ts = np.array(10)
+    for i in range(1, 11):
+        import pdb ;pdb.set_trace()
+        ts[i-1] = times[i] - times[i-1]
+    print(ts.mean())
